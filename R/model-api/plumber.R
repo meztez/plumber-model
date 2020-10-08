@@ -20,14 +20,11 @@ function(req){
 
 ## ---- post-data
 #* Submit data and get a prediction in return
+#* @param data:object*
 #* @post /predict
-function(req, res) {
-  data <- tryCatch(jsonlite::parse_json(req$postBody, simplifyVector = TRUE),
-                   error = function(e) NULL)
+function(data = list(cyl = 0L, hp = 0L)) {
   if (is.null(data)) {
-    res$status <- 400
-    return(list(error = "No data submitted"))
+    stop("No data submitted")
   }
-
   predict(cars_model, data)
 }
